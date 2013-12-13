@@ -14,3 +14,12 @@ v1all + geom_point()
 
 # Only Use Data for 110th onward
 v2110 <- NokkenPooleScores[ which(NokkenPooleScores$Congress >= 110), ]
+
+# Second Graph Attempt
+v2 <- ggplot(v2110, aes(First.Dimension, Second.Dimension))
+v2 + geom_point(aes(colour = factor(Party)))
+
+# Second Graph Attempt looks okay but need to differeniate by Congress
+v3 <- ggplot(v2110, aes(First.Dimension, Second.Dimension))
+v3 + geom_point(aes(colour = factor(Party)))
+v3 + facet_grid(Congress)
