@@ -20,6 +20,14 @@ v2 <- ggplot(v2110, aes(First.Dimension, Second.Dimension))
 v2 + geom_point(aes(colour = factor(Party)))
 
 # Second Graph Attempt looks okay but need to differeniate by Congress
+# This doesn't work right
 v3 <- ggplot(v2110, aes(First.Dimension, Second.Dimension))
 v3 + geom_point(aes(colour = factor(Party)))
 v3 + facet_grid(Congress)
+
+# Try this subtle difference
+# THIS WORKS, though the scale is ugly.
+V4 <- ggplot(v2110, aes(Second.Dimension, First.Dimension))
+V4 <- V4 + geom_point()
+V4 <- V4 + geom_point(aes(colour = factor(Party)))
+V4 <- V4 + facet_grid(. ~ Congress)
