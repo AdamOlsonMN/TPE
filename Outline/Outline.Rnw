@@ -1,9 +1,0 @@
-\documentclass{article}
-
-\begin{document}
-\SweaveOpts{concordance=TRUE}
-
-Be sure to check the evernote for updates.
-
-
-\end{document}

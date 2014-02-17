@@ -1,0 +1,64 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{bigstrut}
+
+%% fonts
+\usepackage[utopia]{mathdesign}
+\usepackage[scaled=.95]{inconsolata}
+
+%% page margins, inter-paragraph space and no chapters
+\usepackage[margin=1.1in]{geometry}
+\setlength{\parskip}{0.5em}
+\renewcommand{\thesection}{\arabic{section}}
+
+%% For actual bib
+\usepackage{natbib}
+\bibpunct{(}{)}{,}{author-year}{}{,}
+
+%% Fuck with the title
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \textbf{\@title}
+
+  \@author
+\end{flushleft}\egroup
+}
+\makeatother
+
+%% for memisc
+\usepackage{booktabs}
+\usepackage{dcolumn}
+
+%% define a dark blue
+\usepackage{color}
+\definecolor{darkblue}{rgb}{0,0,.5}
+
+%% hyperlinks to references
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=darkblue, citecolor=darkblue, filecolor=darkblue, urlcolor=darkblue}
+
+\author{Adam Olson\\University of Minnesota\\February 16, 2014}
+\title{The Tea Party Does Not Exist}
+\date{February 16, 2014}
+
+\begin{document}
+\maketitle
+
+The historical trajectory of conservatism in Congress 
+
+Since the start of the 20th century, the ideological trajectory of the Republican Party in the United States Congress has ebbed and flowed between the moderate and conservative wings of the party. Over the last 50 years, however, the Republican Party has steadily moved to the right ideologically.
+
+
+
+\newpage
+    \bibliography{TeaParty}{}
+\bibliographystyle{jpe}
+
+%\printbibliography
+\end{document}
+
+
