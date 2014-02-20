@@ -90,3 +90,19 @@ p2g1 + facet_grid(p2daAgg2$party)
 p2g2 <- ggplot(p2daAgg, aes((x=p2daAgg$Congress, y=p2daAgg$FirstDimension, color=color = as.factor(p2daAgg$party)))
 
                
+### Part Three
+### I need to look at microlevel changes for individual members.
+
+## Predict TP membership
+
+## Look at Avg Ideology of TP vs AVG ideology of 1SD or 2SD Republicans in previous years
+
+## Predict where their ideology should have been.
+## This is a big deal. I probably will end up running I_t1 = I_t-1 types
+## of models but eventually I will need to run a time series model that predicts
+## normal GOP folks against extreme conservatives. 
+## Additionally, I should just look @ linear trend. How do means between the TP folks compare
+## with just normal Republicans.
+
+MODEL HERE
+               
