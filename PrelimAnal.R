@@ -5,6 +5,10 @@ library(stargazer)
 library(ggplot2)
 library(plyr)
 library(reshape2)
+library(ggthemes)
+library(plm)
+library(car) 
+library(gplots)
 
 # Import Data
 NokkenPooleHouseScores <- read.csv("C:/Users/Olson/Dropbox/ideas/Tea Party Does Not Exist/NokkenPooleHouse.csv")
@@ -88,35 +92,35 @@ p1gv2 + geom_point(aes(colour = Party))
 # Here is a pretty good one examining the shift of Republicans in post war America
 p1gv4ww2 <- ggplot(dav80, aes(Congress, FirstDimension))
 p1gv4ww2 + geom_point()
-p1gv4ww2 + geom_point(aes(colour = Party))
+p1gv4ww2 + geom_point(aes(color = Party))
 dev.copy(png,'p1gv4all.png')
 dev.off()
 
-### Part Two
-### For something totally different now, need to examine average ideoology
-### trends historically. For this I have to figure out how to extract averages
-### per congress in order to find the pivots. Eventually I'll also need Senate
-### data.
-### Additionally, I had the idea of looking at extremism over all Congresses to see 
-### if there has been a period where the parties were this extreme. Compare and 
-### contrast. My thought is that we can compare contemporary Republicans to TP
-### Republicans
+#### Part Two
+#### For something totally different now, need to examine average ideoology
+#### trends historically. For this I have to figure out how to extract averages
+#### per congress in order to find the pivots. Eventually I'll also need Senate
+#### data.
+#### Additionally, I had the idea of looking at extremism over all Congresses to see 
+#### if there has been a period where the parties were this extreme. Compare and 
+#### contrast. My thought is that we can compare contemporary Republicans to TP
+#### Republicans
 
-## This is an extremely clumsy but working way of getting the average dw nominate
-## scores for a given party in a given congress. I do it for both the post war
-## and also the 20th century
-# Post War
-Agg80 <-aggregate(dav80$FirstDimension, by=list(dav80$Congress,dav80$Party), 
+### This is an extremely clumsy but working way of getting the average nominate
+### scores for a given party in a given congress. I do it for both the post war
+### and also the 20th century. Note that the Post War version has TP as separate from
+### the Republicans. I can change that if need be. Both the "Final" versions probably
+### aren't very good for actual visualizaton but they are good to look at.
+## Post War
+Agg80 <-aggregate(dav80$FirstDimension, by=list(dav80$Congress,dav80$TPartyAll), 
                   FUN=mean, na.rm=TRUE)
 Agg80 <- rename(Agg80, c(Group.1="Congress"))
 Agg80 <- rename(Agg80, c(Group.2="Party"))
 Agg80 <- rename(Agg80, c(x="AverageIdeo"))
 
 Agg80Final <- dcast(Agg80, Congress ~ Party)
-Agg80Final <- rename(Agg80Final, c("100"="Democrat"))
-Agg80Final <- rename(Agg80Final, c("200"="Republican"))
 
-# 20th century
+## 20th century
 Agg56 <-aggregate(dav56$FirstDimension, by=list(dav56$Congress,dav56$Party), 
                   FUN=mean, na.rm=TRUE)
 Agg56 <- rename(Agg56, c(Group.1="Congress"))
@@ -124,20 +128,17 @@ Agg56 <- rename(Agg56, c(Group.2="Party"))
 Agg56 <- rename(Agg56, c(x="AverageIdeo"))
 
 Agg56Final <- dcast(Agg56, Congress ~ Party)
-Agg56Final <- rename(Agg56Final, c("100"="Democrat"))
-Agg56Final <- rename(Agg56Final, c("200"="Republican"))
 
-## Plots of Aggregate Data
-## These pplots aren't working because the party shit is so diffused. 
-
-## That does not work. Aggregate ideology scores not compiling. Need to drop Pres ahead of time. Let's plot it anyway.
-## For some reason can't plot by party. Do not know why. 
-p2g1 <- ggplot(Agg56Final, aes(Agg56Final$Democrat, Agg56Final$Republican))
-p2g1 + geom_point()
-p2g1 + facet_grid(p2daAgg2$party)
-
-# Let's try using a regular line plot
-p2g2 <- ggplot(p2daAgg, aes((x=p2daAgg$Congress, y=p2daAgg$FirstDimension, color=color = as.factor(p2daAgg$party)))
+### Plots of Aggregate Data
+### Let's do some smooth ideology plots. This is a pretty important graph.
+p2g1 <- ggplot(Agg80, aes(x = Congress, y = AverageIdeo, color = Party)) +
+  scale_colour_manual(values = c("#0000FF","#FF0000","#cccc00"))+
+  geom_point() +
+  stat_smooth() +
+  theme_classic() +
+  labs(x = "Congress", y = "Average Ideology of Party") +
+  scale_shape_discrete(name = "Congressional\nParty")
+ggsave(file="p2g1.png")
 
 #### Part Three
 #### I need to look at microlevel changes for individual members.
@@ -160,4 +161,10 @@ dav112Dif$Difference112111 <- dav112Dif$"112" - dav112Dif$"111"
 quickmodel <- lm(Difference112111 ~ Party, data=dav112Dif)
 summary(quickmodel)
                
-               
+### Here is me dicking around with a panel regression
+## Diagnostic plots outlined in R slides
+plotmeans(FirstDimension ~ ICPSR, main="Heterogeineityacross countries", data=dav80)
+plotmeans(FirstDimension ~ Congress, main="Heterogeineityacross years", data=dav80)               
+
+fixed <-plm(FirstDimension ~ tpone + Party, data=dav80, index=c("ICPSR", "Congress"), model="within")
+summary(fixed)
