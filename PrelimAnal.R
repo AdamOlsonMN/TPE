@@ -12,14 +12,15 @@ NokkenPooleHouseScores <- read.csv("C:/Users/Olson/Dropbox/ideas/Tea Party Does 
 #### This section does all the variable creation / preliminary moves so that I can create
 #### graphs and analysis
 ### These change the data for my purposes. One thing to note is that they drop all third
-### party members. This is something that needs to be considered eventually. Also need to drop
-### Presidents.
+### party members. I have recoded the party variables by hand in the .csv. I'll need to change
+### the functions below to compensate for this. The treatment of third party members is something
+### needs to be considered eventually. Also need to drop Presidents. 
 ## Only Use Data for 110th onward
-dav110 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 110 & NokkenPooleHouseScores$Party <=200), ]
+dav110 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 110 & NokkenPooleHouseScores$Party <=2), ]
 ## Only Post World War Two
-dav80 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 80 & NokkenPooleHouseScores$Party <=200), ]
+dav80 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 80 & NokkenPooleHouseScores$Party <=2), ]
 ## Only 20th Century
-dav56 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 56 & NokkenPooleHouseScores$Party <=200), ]
+dav56 <- NokkenPooleHouseScores[ which(NokkenPooleHouseScores$Congress >= 56 & NokkenPooleHouseScores$Party <=2), ]
 
 ### This section labels both the regular party variable and the TParty variable for visualization
 ### and ease of use. For the record, TPartyAll is if a member has ever called themself a TP member
@@ -62,11 +63,6 @@ dav56$TPartyAll <- factor(dav56$TPartyAll,
 dav56$TPartyNew <- factor(dav56$TPartyNew,
                           levels = c(1,2,3),
                           labels = c("Democrat", "Republican", "Tea Party"))
-
-### I think that I want one of my DVs to be change in ideology as a function of TP membership.
-### To accomplish this, I have to figure out a way to subtract T-1's ideology for a given member
-### from T's ideology.
-
 
 #### Part One
 #### Prelim Analysis
@@ -131,8 +127,6 @@ Agg56Final <- dcast(Agg56, Congress ~ Party)
 Agg56Final <- rename(Agg56Final, c("100"="Democrat"))
 Agg56Final <- rename(Agg56Final, c("200"="Republican"))
 
-
-
 ## Plots of Aggregate Data
 ## These pplots aren't working because the party shit is so diffused. 
 
@@ -144,22 +138,26 @@ p2g1 + facet_grid(p2daAgg2$party)
 
 # Let's try using a regular line plot
 p2g2 <- ggplot(p2daAgg, aes((x=p2daAgg$Congress, y=p2daAgg$FirstDimension, color=color = as.factor(p2daAgg$party)))
+
+#### Part Three
+#### I need to look at microlevel changes for individual members.
+         
+### Predict TP membership
                
+### Look at Avg Ideology of TP vs AVG ideology of 1SD or 2SD Republicans in previous years
                
-               ### Part Three
-               ### I need to look at microlevel changes for individual members.
-               
-               ## Predict TP membership
-               
-               ## Look at Avg Ideology of TP vs AVG ideology of 1SD or 2SD Republicans in previous years
-               
-               ## Predict where their ideology should have been.
-               ## This is a big deal. I probably will end up running I_t1 = I_t-1 types
-               ## of models but eventually I will need to run a time series model that predicts
-               ## normal GOP folks against extreme conservatives. 
-               ## Additionally, I should just look @ linear trend. How do means between the TP folks compare
-               ## with just normal Republicans.
-               
-               MODEL HERE
+### Predict where their ideology should have been.
+### This is a big deal. I probably will end up running I_t1 = I_t-1 types
+### of models but eventually I will need to run a time series model that predicts
+### normal GOP folks against extreme conservatives. Additionally, I should just look @ linear trend. 
+### How do means between the TP folks compare with just normal Republicans. Another way to look at this
+### is to I think that I want one of my DVs to be change in ideology as a function of TP membership.
+### To accomplish this, I have to figure out a way to subtract T-1's ideology for a given member
+### from T's ideology. First steps first, put the data in a version that allows us to calculate
+### the difference
+dav112Dif<- dcast(dav110, ICPSR + Name + State + Party + TPartyAll + TPartyNew + tptwo ~ Congress, value.var="FirstDimension")
+dav112Dif$Difference112111 <- dav112Dif$"112" - dav112Dif$"111"
+quickmodel <- lm(Difference112111 ~ Party, data=dav112Dif)
+summary(quickmodel)
                
                
