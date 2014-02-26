@@ -158,7 +158,7 @@ ggsave(file="p2g1.png")
 ### the difference
 dav112Dif<- dcast(dav110, ICPSR + Name + State + Party + TPartyAll + TPartyNew + tptwo ~ Congress, value.var="FirstDimension")
 dav112Dif$Difference112111 <- dav112Dif$"112" - dav112Dif$"111"
-quickmodel <- lm(Difference112111 ~ Party, data=dav112Dif)
+quickmodel <- lm(Difference112111 ~ tptwo, data=dav112Dif)
 summary(quickmodel)
                
 ### Here is me dicking around with a panel regression
@@ -168,3 +168,20 @@ plotmeans(FirstDimension ~ Congress, main="Heterogeineityacross years", data=dav
 
 fixed <-plm(FirstDimension ~ tpone + Party, data=dav80, index=c("ICPSR", "Congress"), model="within")
 summary(fixed)
+
+#### Part Four: Trying to see an agenda change.
+#### One of the major part
+
+### Roll Rates
+## Import Data. This data is individual level based and I'll need to aggregate it to get overall
+## roll rates. Additionally, it is times won so I'll need to convert the variables (annoying) to
+## times lost. I didn't download the senate version but they are here http://voteview.com/winning_side.htm
+WinningSideHouse <- read.csv("C:/Users/Olson/Dropbox/ideas/Tea Party Does Not Exist/WinningSideHouse.csv")
+
+
+## Aggregate
+## In this section I'll have to aggregate the stuff up.
+
+## Individual
+
+## Special Rules
