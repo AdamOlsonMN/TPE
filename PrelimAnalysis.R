@@ -142,9 +142,13 @@ ggsave(file="p2g1.png")
 
 #### Part Three
 #### I need to look at microlevel changes for individual members.
-         
+#### Subset of just Republicans
+dav110gop <- subset(dav110, Party = 1)
+
 ### Predict TP membership
-               
+## Real basic model
+TPmem <- glm(tptwo ~ FirstDimension, data=dav110gop, family = "binomial")
+summary(TPmem)               
 ### Look at Avg Ideology of TP vs AVG ideology of 1SD or 2SD Republicans in previous years
                
 ### Predict where their ideology should have been.
