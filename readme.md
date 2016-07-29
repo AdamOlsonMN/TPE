@@ -1,15 +1,18 @@
-An idea for a new project within this project.
+# Republicanism in Congress
+So far, this is a broad project encompassing the nature of Republican Conservatism in Congress. It began with the Tea Party series of questions but has ballooned into trying to understand the rise of Republican extremism.
 
-Why do members of Congress align themselves with conservative populist groups such as the Tea Party movement or, more recently, the Freedom Caucus? Research assessing the rise of conservative populism among members of Congress have focused on the link between conservative populists as a social or mass movement and the election of populist Republicans at the expense of examining MC motivations for associating with these movements. While associating with the movement may be driven by electoral concerns, that is not always the only motivation of MCs, which may include prestige or power in addition to re-election. In fact, declining to join the tea party could be indicative of motivation in This paper assesses motivations looks at Tea Party members, Freedom Caucus members.
+## Tea Party Existence
+The original thrust was to examine whether or not the Tea Party actually existed -- or rather, if there was a Tea Party effect.
 
-Electoral Variables:
-Freshman
-Close re-election
+*Largely Inactive*
 
-Policy:
-??
+## Trump support in Congress
+This project tries to assess what factors are associated with supporting Trump among Congressional Republicans.
 
-Influence:
-1. They want to run for higher office and would like to appeal to tea party groups in their state or nationally, or they want access to that money.
-2. Seniority -- Members with a lot of seniority won't join the tea party because they 
-3. Ideological Distance - people who are far away from the mean (or maybe leadership mean) are more willing to join the group because they have nothing to lose anyway. Conversely, people who are close to the average GOP might be less willing.
+Last updated July 2016
+*Most Active*
+
+## Tea Party Caucus
+This project tries to understand why Republicans join ideological caucuses.
+
+Last updated June 2016
